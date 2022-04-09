@@ -30,6 +30,20 @@ void string_concat_dinamyc(const char* str1,const char* str2, char** str){
 	strcat(*str,str2);
 }
 
+//Recibe un puntero a char con el mail completo, y la direccion de memoria de dos punteros donde se guardará
+// el usuario y el dominio del mail.
+void mail_split(const char* mail, char** user, char** dominio){
+	char* correoParticionado = malloc(strlen(mail)+1);
+	strcpy(correoParticionado,mail);
+	strtok(correoParticionado,"@");
+	*user = malloc(strlen(correoParticionado)+1);
+	*dominio = malloc(strlen(mail)-strlen(correoParticionado));
+	strcpy(*user,correoParticionado);
+	strcpy(*dominio,strtok(NULL,"@"));
+	free(correoParticionado);
+	//printf("Correo Part: %s\n\n",correoParticionado);
+}
+
 /*
 
 Ejercicio1
@@ -43,11 +57,26 @@ int main(void){
 }
 */
 
-int main(){
+/*
+
+Ejercicio2
+
+int main(void){
 	char* nombre="Carri";
 	char* saludo;
 	string_concat_dinamyc("Hola ",nombre,&saludo);
 	printf("%s",saludo);
 	free(saludo);
 }
+*/
 
+int main(void){
+	char* mail = "franco.carrillo@utn.edu.com.ar";
+	char* user;
+	char* dominio;
+	mail_split(mail,&user,&dominio);
+	printf("User: %s\n",user);
+	printf("Domain: %s\n",dominio);
+	free(user);
+	free(dominio);
+}
